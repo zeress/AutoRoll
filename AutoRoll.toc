@@ -1,0 +1,14 @@
+## Interface: 11304
+## Title: Auto Roll
+## Notes: Set up rules to automatically need/greed/pass on drops.
+## Version: 0.1
+## DefaultState: enabled
+## Author: CassiniEU @ Twitch.com
+## SavedVariables: AutoRoll_Options
+
+
+Dependencies\AddonUtils.lua
+
+AutoRoll.lua
+
+Modules\SlashCommands.lua
