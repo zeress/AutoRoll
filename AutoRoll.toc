@@ -6,7 +6,6 @@
 ## Author: CassiniEU @ Twitch.com
 ## SavedVariables: AutoRoll_Options
 
-
 Dependencies\AddonUtils.lua
 
 AutoRoll.lua
