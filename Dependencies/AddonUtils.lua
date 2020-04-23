@@ -1,5 +1,11 @@
 
-AutoRollUtils = {}
+AutoRollUtils = {
+    ROLL = {
+        PASS = 0,
+        NEED = 1,
+        GREED = 2
+    }
+}
 
 function AutoRollUtils:modulus(a,b)
     return a - math.floor(a/b)*b
@@ -21,21 +27,33 @@ function AutoRollUtils:deepcopy(orig)
 end
 
 function AutoRollUtils:getItemId(str)
-    return string.match(str, "item:(%d*)")
+    if str then
+        local tmp = string.match(str, "item:(%d*)")
+        if tmp then
+            return string.match(tmp, "(%d*)")
+        end
+    end
 end
 
 function AutoRollUtils:getRuleValue(str)
-    if str:lower() == "pass" then return 0 end
-    if str:lower() == "need" then return 1 end
-    if str:lower() == "greed" then return 2 end
+    if str:lower() == "pass" then return AutoRollUtils.ROLL.PASS end
+    if str:lower() == "need" then return AutoRollUtils.ROLL.NEED end
+    if str:lower() == "greed" then return AutoRollUtils.ROLL.GREED end
 
     return -1
 end
 
 function AutoRollUtils:getRuleString(num)
-    if num == 0 then return "pass" end
-    if num == 1 then return "need" end
-    if num == 2 then return "greed" end
+    if num == AutoRollUtils.ROLL.PASS then return "pass" end
+    if num == AutoRollUtils.ROLL.NEED then return "need" end
+    if num == AutoRollUtils.ROLL.GREED then return "greed" end
 
     return nil
+end
+
+function AutoRollUtils:rollID2itemID(rollId)
+    local ItemLink = GetLootRollItemLink(rollId)
+    local itemString = gsub(ItemLink, "\124", "\124\124")
+    local itemId = tonumber(AutoRollUtils:getItemId(itemString))
+    return itemId
 end
