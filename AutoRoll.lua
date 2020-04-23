@@ -124,17 +124,19 @@ do -- Private Scope
             local _, _, _, _, _, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)	
             local rule = AutoRoll_Options["rules"][itemId]
 
-            if rule > -1 then
-                local shouldRoll = (rule == AutoRollUtils.ROLL.NEED and canNeed) or (rule == AutoRollUtils.ROLL.GREED and canGreed) or (rule == AutoRollUtils.ROLL.PASS)
+            if rule then
+                if rule > -1 then
+                    local shouldRoll = (rule == AutoRollUtils.ROLL.NEED and canNeed) or (rule == AutoRollUtils.ROLL.GREED and canGreed) or (rule == AutoRollUtils.ROLL.PASS)
 
-                if shouldRoll then
-                    if AutoRoll_Options["printRolls"] then
-                        print("AutoRoll: "..AutoRoll_Options["rules"][itemId].." on "..GetLootRollItemLink(RollID))
+                    if shouldRoll then
+                        if AutoRoll_Options["printRolls"] then
+                            print("AutoRoll: "..AutoRoll_Options["rules"][itemId].." on "..GetLootRollItemLink(RollID))
+                        end
+                        
+                        RollOnLoot(RollID, rule)
                     end
-                    
-                    RollOnLoot(RollID, rule)
                 end
-            end
+        end
         end
     end
 
