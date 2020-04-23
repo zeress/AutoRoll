@@ -83,7 +83,6 @@ do -- Private Scope
         if event == "CONFIRM_LOOT_ROLL" then
             local rollId = select(1, ...)
             local roll = select(2, ...)
-            StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil
 
             ConfirmLootRoll(rollId, roll)
         end  
