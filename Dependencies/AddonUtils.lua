@@ -36,9 +36,11 @@ function AutoRollUtils:getItemId(str)
 end
 
 function AutoRollUtils:getRuleValue(str)
-    if str:lower() == "pass" then return AutoRollUtils.ROLL.PASS end
-    if str:lower() == "need" then return AutoRollUtils.ROLL.NEED end
-    if str:lower() == "greed" then return AutoRollUtils.ROLL.GREED end
+    if str then
+        if str:lower() == "pass" then return AutoRollUtils.ROLL.PASS end
+        if str:lower() == "need" then return AutoRollUtils.ROLL.NEED end
+        if str:lower() == "greed" then return AutoRollUtils.ROLL.GREED end
+    end
 
     return -1
 end
