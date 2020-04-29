@@ -21,16 +21,29 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if (rule == "need") or (rule == "greed") or (rule == "pass") then
+        -- Item Type Rules
+        if AutoRoll.CheckItemType(cmd, rule) then
+            return
+        end
+
+        -- Item Rarity Rules
+        if AutoRoll.CheckItemRarity(cmd, rule) then
+            return
+        end
+
+        -- Item Link Rules
         if itemIdString then 
             AutoRoll.SaveRule(itemIdString, rule)
         end
 
+        -- Zul'Gurub Coins
         if string.match(cmd, "coins") then
             for index,itemId in ipairs(AutoRoll.COIN_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
         end
 
+        -- Zul'Gurub Bijous
         if string.match(cmd, "bijous") then
             for index,itemId in ipairs(AutoRoll.BIJOUS_IDS) do
                 AutoRoll.SaveRule(itemId, rule)

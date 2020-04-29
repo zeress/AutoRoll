@@ -101,19 +101,29 @@ do -- Private Scope
         print("--       /ar IGNORE [item-link]")
     end
 
-    function SaveRule(itemId, rule)
+    function SaveRule(key, rule)
         -- Get Existing
         local rules = AutoRoll_Options["rules"]
 
-        local itemName, itemLink = GetItemInfo(itemId)
-
         -- Make Mutations
-        if rule == nil then
-            print("Removed rule for "..itemLink)
-            rules[tonumber(itemId)] = nil
-        else
-            rules[tonumber(itemId)] = AutoRollUtils:getRuleValue(rule)
-            print("Remembered "..rule:upper().." on "..(itemLink or "item:"..itemId))
+        if (type(key) == "number") then
+            local itemName, itemLink = GetItemInfo(key)
+
+            if rule == nil then
+                print("Removed rule for "..(itemLink or "item:"..key))
+                rules[tonumber(key)] = nil
+            else
+                rules[tonumber(key)] = AutoRollUtils:getRuleValue(rule)
+                print("Remembered "..rule:upper().." on "..(itemLink or "item:"..key))
+            end
+        elseif (type(key) == "string") then
+            if rule == nil then
+                print("Removed rule for "..key)
+                rules[key:lower()] = nil
+            else
+                rules[key:lower()] = AutoRollUtils:getRuleValue(rule)
+                print("Remembered "..rule:upper().." on "..key)
+            end 
         end
 
         -- Save
@@ -121,11 +131,32 @@ do -- Private Scope
     end
 
     function EvaluateActiveRolls()      
+        local rules = AutoRoll_Options["rules"]
+
         for index,RollID in ipairs(GetActiveLootRollIDs()) do
             local itemId = AutoRollUtils:rollID2itemID(RollID)
-            local _, _, _, _, _, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)	
-            local rule = AutoRoll_Options["rules"][itemId]
+            local _, _, _, quality, bindOnPickUp, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)	
+            local itemName, itemLink, itemRarity, _, _, _, itemSubType = GetItemInfo(itemId)
 
+            -- start by checking the exact item ID
+            local rule = rules[itemId]
+
+            -- In case it's not found, check item sub type
+            if not rule then
+                if itemSubType then
+                    rule = rules[itemSubType]
+                end
+            end
+
+            -- In case it's not found, check item rarity
+            if not rule then
+                if itemRarity then
+                    local key = AutoRollUtils:getRarityStringFromInteger(itemRarity)
+                    rule = rules[key]
+                end
+            end
+
+            -- Proceed only if we found an established rule
             if rule then
                 if rule > -1 then
                     local shouldRoll = (rule == AutoRollUtils.ROLL.NEED and canNeed) or (rule == AutoRollUtils.ROLL.GREED and canGreed) or (rule == AutoRollUtils.ROLL.PASS)
@@ -138,12 +169,41 @@ do -- Private Scope
                         RollOnLoot(RollID, rule)
                     end
                 end
+            end
         end
+    end
+    
+    function CheckItemType(cmd, rule) 
+        return SaveIfFound(cmd, rule, "cloth")
+        or SaveIfFound(cmd, rule, "leather")
+        or SaveIfFound(cmd, rule, "mail")
+        or SaveIfFound(cmd, rule, "plate")
+        or SaveIfFound(cmd, rule, "shields")
+        or SaveIfFound(cmd, rule, "librams")
+        or SaveIfFound(cmd, rule, "idols")
+        or SaveIfFound(cmd, rule, "totems")
+        or SaveIfFound(cmd, rule, "sigils")
+    end
+
+    function CheckItemRarity(cmd, rule) 
+        return SaveIfFound(cmd, rule, "uncommon")
+        or SaveIfFound(cmd, rule, "rare")
+        or SaveIfFound(cmd, rule, "epic")
+        or SaveIfFound(cmd, rule, "legendary")
+    end
+
+    function SaveIfFound(cmd, rule, keyword)
+        if string.match(cmd, keyword) then
+            AutoRoll.SaveRule(keyword, rule)
+            return true
         end
+        return false
     end
 
     -- Expose Functions
     AutoRoll.SaveRule = SaveRule
+    AutoRoll.CheckItemType = CheckItemType
+    AutoRoll.CheckItemRarity = CheckItemRarity
 
 end
 

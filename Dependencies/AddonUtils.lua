@@ -4,6 +4,13 @@ AutoRollUtils = {
         PASS = 0,
         NEED = 1,
         GREED = 2
+    },
+    -- use ITEM_QUALITY_COLORS[integer] for colors {r,g,b,hex}
+    ItemRarity = {
+        UNCOMMON = 2,
+        RARE = 3,
+        EPIC = 4,
+        LEGENDARY = 5
     }
 }
 
@@ -59,3 +66,24 @@ function AutoRollUtils:rollID2itemID(rollId)
     local itemId = tonumber(AutoRollUtils:getItemId(itemString))
     return itemId
 end
+
+function AutoRollUtils:getRarityStringFromInteger(num)
+    if num == AutoRollUtils.ItemRarity.UNCOMMON then return "uncommon" end
+    if num == AutoRollUtils.ItemRarity.RARE then return "rare" end
+    if num == AutoRollUtils.ItemRarity.EPIC then return "epic" end
+    if num == AutoRollUtils.ItemRarity.LEGENDARY then return "legendary" end
+
+    return nil
+end
+
+function AutoRollUtils:getRarityIntegerFromString(str)
+    if str then
+        if str:lower() == "uncommon" then return AutoRollUtils.ItemRarity.UNCOMMON end
+        if str:lower() == "rare" then return AutoRollUtils.ItemRarity.RARE end
+        if str:lower() == "epic" then return AutoRollUtils.ItemRarity.EPIC end
+        if str:lower() == "legendary" then return AutoRollUtils.ItemRarity.LEGENDARY end
+    end
+
+    return -1
+end
+
