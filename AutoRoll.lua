@@ -34,7 +34,8 @@ do -- Private Scope
 
     local defaults = {
         ["rules"] = {},
-        ["printRolls"] = false
+        ["printRolls"] = false,
+        ["enabled"] = true,
     }
 
     -- REGISTER EVENTS
@@ -72,20 +73,22 @@ do -- Private Scope
             end
         end
 
-        if event == "START_LOOT_ROLL" then
-            EvaluateActiveRolls()
+        if AutoRoll_Options["rules"]["enabled"] then
+            if event == "START_LOOT_ROLL" then
+                EvaluateActiveRolls()
+            end
+
+            if event == "PLAYER_ENTERING_WORLD" then
+                EvaluateActiveRolls()
+            end
+
+            if event == "CONFIRM_LOOT_ROLL" then
+                local rollId = select(1, ...)
+                local roll = select(2, ...)
+
+                ConfirmLootRoll(rollId, roll)
+            end  
         end
-
-        if event == "PLAYER_ENTERING_WORLD" then
-            EvaluateActiveRolls()
-        end
-
-        if event == "CONFIRM_LOOT_ROLL" then
-            local rollId = select(1, ...)
-            local roll = select(2, ...)
-
-            ConfirmLootRoll(rollId, roll)
-        end  
     end
 
     function PrintHelp()

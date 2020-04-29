@@ -8,6 +8,18 @@ SlashCmdList["AR"] = function(msg)
     local rule = string.match(cmd, "^(%S*)")
     local itemIdString = AutoRollUtils:getItemId(cmd)
 
+    if (rule == "enable") then
+        AutoRoll_Options["enabled"] = true
+        print("AutoRoll Enabled.")
+        return
+    end
+
+    if (rule == "disable") then
+        AutoRoll_Options["enabled"] = false
+        print("AutoRoll Disabled.")
+        return
+    end
+
     if (rule == "need") or (rule == "greed") or (rule == "pass") then
         if itemIdString then 
             AutoRoll.SaveRule(itemIdString, rule)
