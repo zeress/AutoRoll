@@ -21,6 +21,11 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if (rule == "need") or (rule == "greed") or (rule == "pass") then
+        -- Item Rarity + Item Type Rules
+        if AutoRoll.CheckRuleCombinations(cmd, rule) then
+            return
+        end
+
         -- Item Type Rules
         if AutoRoll.CheckItemType(cmd, rule) then
             return

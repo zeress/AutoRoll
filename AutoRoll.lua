@@ -27,6 +27,47 @@ AutoRoll.BIJOUS_IDS = {
     19715, -- Gold Hakkari Bijou
 }
 
+AutoRoll.ItemSubTypes = {
+    -- ARMOR
+    "Cloth",
+    "Leather",
+    "Mail",
+    "Plate",
+    "Shields",
+    "Librams",
+    "Odols",
+    "Totems",
+    "Sigils",
+
+    -- WEAPONS
+    "One-Handed Axes",
+    "Two-Handed Axes",
+    "Bows",
+    "Guns",
+    "One-Handed Maces",
+    "Two-Handed Maces",
+    "Polearms",
+    "One-Handed Swords",
+    "Two-Handed Swords",
+    "Staves",
+    "Fist Weaons",
+    "Daggers",
+    "Thrown",
+    "Spears",
+    "Crossbows",
+    "Wands",
+    "Fishing Poles",
+
+    -- TRADE GOODS
+    "Trade Goods"
+}
+
+AutoRoll.ItemRarities = {
+    "Uncommon",
+    "Rare",
+    "Epic",
+    "Legendary"
+}
 
 do -- Private Scope
 
@@ -73,7 +114,7 @@ do -- Private Scope
             end
         end
 
-        if AutoRoll_Options["rules"]["enabled"] then
+        if AutoRoll_Options["enabled"] then
             if event == "START_LOOT_ROLL" then
                 EvaluateActiveRolls()
             end
@@ -136,23 +177,34 @@ do -- Private Scope
         for index,RollID in ipairs(GetActiveLootRollIDs()) do
             local itemId = AutoRollUtils:rollID2itemID(RollID)
             local _, _, _, quality, bindOnPickUp, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)	
+
             local itemName, itemLink, itemRarity, _, _, _, itemSubType = GetItemInfo(itemId)
 
             -- start by checking the exact item ID
-            local rule = rules[itemId]
+            local ruleKey = itemId
+            local rule = rules[ruleKey]
+
+            -- In case it's not found, check rule combinations
+            if not rule then
+                if itemRarity and itemSubType then
+                    ruleKey = itemRarity:lower().."%+"..itemSubType:lower()
+                    rule = rules[ruleKey]
+                end
+            end
 
             -- In case it's not found, check item sub type
             if not rule then
                 if itemSubType then
-                    rule = rules[itemSubType]
+                    ruleKey = itemSubType:lower()
+                    rule = rules[ruleKey]
                 end
             end
 
             -- In case it's not found, check item rarity
             if not rule then
                 if itemRarity then
-                    local key = AutoRollUtils:getRarityStringFromInteger(itemRarity)
-                    rule = rules[key]
+                    ruleKey = AutoRollUtils:getRarityStringFromInteger(itemRarity)
+                    rule = rules[ruleKey]
                 end
             end
 
@@ -163,7 +215,8 @@ do -- Private Scope
 
                     if shouldRoll then
                         if AutoRoll_Options["printRolls"] then
-                            print("AutoRoll: "..AutoRoll_Options["rules"][itemId].." on "..GetLootRollItemLink(RollID))
+                            local ruleString = AutoRollUtils:getRuleString(AutoRoll_Options["rules"][ruleKey]) 
+                           print("AutoRoll: "..ruleString:upper().." on "..GetLootRollItemLink(RollID))
                         end
                         
                         RollOnLoot(RollID, rule)
@@ -202,10 +255,27 @@ do -- Private Scope
         return false
     end
 
+    function CheckRuleCombinations(cmd, rule) 
+        for _,itemRarity in ipairs(AutoRoll.ItemRarities) do
+            for _,itemType in ipairs(AutoRoll.ItemSubTypes) do
+                if CheckRuleCombination(cmd, rule, itemRarity, itemType) then
+                    return true
+                end
+            end
+        end
+        return false
+    end
+
+    function CheckRuleCombination(cmd, rule, itemRarity, itemType)
+        local keyword = itemRarity:lower().."%+"..itemType:lower()
+        return SaveIfFound(cmd, rule, keyword)
+    end
+
     -- Expose Functions
     AutoRoll.SaveRule = SaveRule
     AutoRoll.CheckItemType = CheckItemType
     AutoRoll.CheckItemRarity = CheckItemRarity
+    AutoRoll.CheckRuleCombinations = CheckRuleCombinations
 
 end
 
