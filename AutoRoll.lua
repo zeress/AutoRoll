@@ -187,8 +187,11 @@ do -- Private Scope
             -- In case it's not found, check rule combinations
             if not rule then
                 if itemRarity and itemSubType then
-                    ruleKey = itemRarity:lower().."%+"..itemSubType:lower()
-                    rule = rules[ruleKey]
+                    local rarity = AutoRollUtils:getRarityStringFromInteger(itemRarity)
+                    if rarity then
+                        ruleKey = rarity.."%+"..itemSubType:lower()
+                        rule = rules[ruleKey]
+                    end
                 end
             end
 
