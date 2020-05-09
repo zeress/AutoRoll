@@ -5,6 +5,7 @@
 ## DefaultState: enabled
 ## Author: CassiniEU @ Twitch.com
 ## SavedVariables: AutoRoll_Options
+## SavedVariablesPerCharacter : AutoRoll_PCDB
 
 Dependencies\AddonUtils.lua
 

@@ -1,5 +1,5 @@
 -- NAMESPACE / CLASS: AutoRoll   
--- OPTIONS: AutoRoll_Options      
+-- OPTIONS: AutoRoll_PCDB      
 
 AutoRoll = CreateFrame("Frame")
 
@@ -95,13 +95,20 @@ do -- Private Scope
     end
 
     function LoadOptions()
-        if AutoRoll_Options == nil then
-            AutoRoll_Options = AutoRollUtils:deepcopy(defaults)
+        -- Migration from old GLOBAL options variable to PER CHARACTER variable
+        if AutoRoll_Options then 
+            AutoRoll_PCDB = AutoRollUtils:deepcopy(AutoRoll_Options)
+            AutoRoll_Options = nil -- Delete the old options variable, to avoid multiple overwrites
+        end
+
+
+        if AutoRoll_PCDB == nil then
+            AutoRoll_PCDB = AutoRollUtils:deepcopy(defaults)
         end
 
         for key,value in pairs(defaults) do
-            if (AutoRoll_Options[key] == nil) then
-                AutoRoll_Options[key] = value
+            if (AutoRoll_PCDB[key] == nil) then
+                AutoRoll_PCDB[key] = value
             end
         end
     end
@@ -114,7 +121,7 @@ do -- Private Scope
             end
         end
 
-        if AutoRoll_Options["enabled"] then
+        if AutoRoll_PCDB["enabled"] then
             if event == "START_LOOT_ROLL" then
                 EvaluateActiveRolls()
             end
@@ -144,7 +151,7 @@ do -- Private Scope
 
     function SaveRule(key, rule)
         -- Get Existing
-        local rules = AutoRoll_Options["rules"]
+        local rules = AutoRoll_PCDB["rules"]
 
         -- Make Mutations
         if (type(key) == "number") then
@@ -168,11 +175,11 @@ do -- Private Scope
         end
 
         -- Save
-        AutoRoll_Options["rules"] = rules
+        AutoRoll_PCDB["rules"] = rules
     end
 
     function EvaluateActiveRolls()      
-        local rules = AutoRoll_Options["rules"]
+        local rules = AutoRoll_PCDB["rules"]
 
         for index,RollID in ipairs(GetActiveLootRollIDs()) do
             local itemId = AutoRollUtils:rollID2itemID(RollID)
@@ -217,8 +224,8 @@ do -- Private Scope
                     local shouldRoll = (rule == AutoRollUtils.ROLL.NEED and canNeed) or (rule == AutoRollUtils.ROLL.GREED and canGreed) or (rule == AutoRollUtils.ROLL.PASS)
 
                     if shouldRoll then
-                        if AutoRoll_Options["printRolls"] then
-                            local ruleString = AutoRollUtils:getRuleString(AutoRoll_Options["rules"][ruleKey]) 
+                        if AutoRoll_PCDB["printRolls"] then
+                            local ruleString = AutoRollUtils:getRuleString(AutoRoll_PCDB["rules"][ruleKey]) 
                            print("AutoRoll: "..ruleString:upper().." on "..GetLootRollItemLink(RollID))
                         end
                         

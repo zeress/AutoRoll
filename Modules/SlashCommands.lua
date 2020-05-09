@@ -9,13 +9,13 @@ SlashCmdList["AR"] = function(msg)
     local itemIdString = AutoRollUtils:getItemId(cmd)
 
     if (rule == "enable") then
-        AutoRoll_Options["enabled"] = true
+        AutoRoll_PCDB["enabled"] = true
         print("AutoRoll Enabled.")
         return
     end
 
     if (rule == "disable") then
-        AutoRoll_Options["enabled"] = false
+        AutoRoll_PCDB["enabled"] = false
         print("AutoRoll Disabled.")
         return
     end
@@ -74,7 +74,7 @@ SlashCmdList["AR"] = function(msg)
         end
 
         if string.match(cmd, "all rules") then
-            local rules = AutoRoll_Options["rules"]
+            local rules = AutoRoll_PCDB["rules"]
 
             for itemId,ruleNum in pairs(rules) do
                 if itemId then
@@ -82,12 +82,12 @@ SlashCmdList["AR"] = function(msg)
                 end
             end
 
-            AutoRoll_Options["rules"] = {}
+            AutoRoll_PCDB["rules"] = {}
         end
     end
 
     if cmd == "printing" then
-        local willPrint = not AutoRoll_Options["printRolls"] 
+        local willPrint = not AutoRoll_PCDB["printRolls"] 
 
         if willPrint then
             print("AutoRoll - Printing ENABLED") 
@@ -95,13 +95,13 @@ SlashCmdList["AR"] = function(msg)
             print("AutoRoll - Printing DISABLED") 
         end
 
-        AutoRoll_Options["printRolls"] = willPrint
+        AutoRoll_PCDB["printRolls"] = willPrint
     end
 
     if cmd == "rules" then
         print("AutoRoll Rules")
 
-        local rules = AutoRoll_Options["rules"]
+        local rules = AutoRoll_PCDB["rules"]
         if rules then           
             local count = 0
 
