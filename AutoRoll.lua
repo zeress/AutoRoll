@@ -95,16 +95,8 @@ do -- Private Scope
     end
 
     function LoadOptions()
-        -- Migration from old GLOBAL options variable to PER CHARACTER variable
-        if AutoRoll_Options then 
-            AutoRoll_PCDB = AutoRollUtils:deepcopy(AutoRoll_Options)
-            AutoRoll_Options = nil -- Delete the old options variable, to avoid multiple overwrites
-        end
+        AutoRoll_PCDB = AutoRoll_PCDB or AutoRollUtils:deepcopy(defaults)
 
-
-        if AutoRoll_PCDB == nil then
-            AutoRoll_PCDB = AutoRollUtils:deepcopy(defaults)
-        end
 
         for key,value in pairs(defaults) do
             if (AutoRoll_PCDB[key] == nil) then
