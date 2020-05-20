@@ -98,6 +98,18 @@ SlashCmdList["AR"] = function(msg)
         AutoRoll_PCDB["printRolls"] = willPrint
     end
 
+    if cmd == "filter rolls" then
+        local willFilter = not AutoRoll_PCDB["filterRolls"] 
+
+        if willFilter then
+            print("AutoRoll - Filtering rolls ENABLED") 
+        else
+            print("AutoRoll - Filtering rolls DISABLED") 
+        end
+
+        AutoRoll_PCDB["filterRolls"] = willFilter
+    end
+
     if cmd == "rules" then
         print("AutoRoll Rules")
 

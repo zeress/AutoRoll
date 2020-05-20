@@ -69,6 +69,11 @@ AutoRoll.ItemRarities = {
     "Legendary"
 }
 
+AutoRoll.FilterStrings = {
+    "Bijou",
+    "Coin"
+}
+
 do -- Private Scope
 
     local ADDON_NAME = "AutoRoll"
@@ -77,6 +82,7 @@ do -- Private Scope
         ["rules"] = {},
         ["printRolls"] = false,
         ["enabled"] = true,
+        ["filterRolls"] = true,
     }
 
     -- REGISTER EVENTS
@@ -88,6 +94,21 @@ do -- Private Scope
     AutoRoll:SetScript("OnEvent", function(self, event, arg1, ...) 
         AutoRoll:onEvent(self, event, arg1, ...) 
     end)
+
+    -- REGISTER ROLL FILTER
+    function rollFiler(_, _, message)
+        if AutoRoll_PCDB["filterRolls"] and not string.match(message, "won:") then
+            for _, str in pairs(AutoRoll.FilterStrings) do
+                if string.match(message, str) then return true end
+            end
+            for _, str in pairs(AutoRoll.FilterStrings) do
+                if string.match(message, str) then return true end
+            end
+        end
+        return false
+    end
+    
+    ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", rollFiler)
 
     -- INITIALIZATION
     function Init()  
