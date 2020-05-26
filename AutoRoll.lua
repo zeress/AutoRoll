@@ -1,5 +1,5 @@
--- NAMESPACE / CLASS: AutoRoll   
--- OPTIONS: AutoRoll_PCDB      
+-- NAMESPACE / CLASS: AutoRoll
+-- OPTIONS: AutoRoll_PCDB
 
 AutoRoll = CreateFrame("Frame")
 
@@ -14,7 +14,7 @@ AutoRoll.COIN_IDS = {
     19705, -- Skullsplitter Coin
     19706, -- Bloodscalp Coin
 }
-  
+
 AutoRoll.BIJOUS_IDS = {
     19707, -- Red Hakkari Bijou
     19708, -- Blue Hakkari Bijou
@@ -91,8 +91,8 @@ do -- Private Scope
     AutoRoll:RegisterEvent("CONFIRM_LOOT_ROLL")
     AutoRoll:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-    AutoRoll:SetScript("OnEvent", function(self, event, arg1, ...) 
-        AutoRoll:onEvent(self, event, arg1, ...) 
+    AutoRoll:SetScript("OnEvent", function(self, event, arg1, ...)
+        AutoRoll:onEvent(self, event, arg1, ...)
     end)
 
     -- REGISTER ROLL FILTER
@@ -107,17 +107,16 @@ do -- Private Scope
         end
         return false
     end
-    
+
     ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", rollFiler)
 
     -- INITIALIZATION
-    function Init()  
+    function Init()
         LoadOptions()
     end
 
     function LoadOptions()
         AutoRoll_PCDB = AutoRoll_PCDB or AutoRollUtils:deepcopy(defaults)
-
 
         for key,value in pairs(defaults) do
             if (AutoRoll_PCDB[key] == nil) then
@@ -148,7 +147,7 @@ do -- Private Scope
                 local roll = select(2, ...)
 
                 ConfirmLootRoll(rollId, roll)
-            end  
+            end
         end
     end
 
@@ -184,20 +183,19 @@ do -- Private Scope
             else
                 rules[key:lower()] = AutoRollUtils:getRuleValue(rule)
                 print("Remembered "..rule:upper().." on "..key)
-            end 
+            end
         end
 
         -- Save
         AutoRoll_PCDB["rules"] = rules
     end
 
-    function EvaluateActiveRolls()      
+    function EvaluateActiveRolls()
         local rules = AutoRoll_PCDB["rules"]
 
         for index,RollID in ipairs(GetActiveLootRollIDs()) do
             local itemId = AutoRollUtils:rollID2itemID(RollID)
-            local _, _, _, quality, bindOnPickUp, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)	
-
+            local _, _, _, quality, bindOnPickUp, canNeed, canGreed, _ = GetLootRollItemInfo(RollID)
             local itemName, itemLink, itemRarity, _, _, _, itemSubType = GetItemInfo(itemId)
 
             -- start by checking the exact item ID
@@ -238,18 +236,18 @@ do -- Private Scope
 
                     if shouldRoll then
                         if AutoRoll_PCDB["printRolls"] then
-                            local ruleString = AutoRollUtils:getRuleString(AutoRoll_PCDB["rules"][ruleKey]) 
-                           print("AutoRoll: "..ruleString:upper().." on "..GetLootRollItemLink(RollID))
+                            local ruleString = AutoRollUtils:getRuleString(AutoRoll_PCDB["rules"][ruleKey])
+                            print("AutoRoll: "..ruleString:upper().." on "..GetLootRollItemLink(RollID))
                         end
-                        
+
                         RollOnLoot(RollID, rule)
                     end
                 end
             end
         end
     end
-    
-    function CheckItemType(cmd, rule) 
+
+    function CheckItemType(cmd, rule)
         return SaveIfFound(cmd, rule, "cloth")
         or SaveIfFound(cmd, rule, "leather")
         or SaveIfFound(cmd, rule, "mail")
@@ -263,7 +261,7 @@ do -- Private Scope
         or SaveIfFound(cmd, rule, "sigils")
     end
 
-    function CheckItemRarity(cmd, rule) 
+    function CheckItemRarity(cmd, rule)
         return SaveIfFound(cmd, rule, "uncommon")
         or SaveIfFound(cmd, rule, "rare")
         or SaveIfFound(cmd, rule, "epic")
@@ -278,7 +276,7 @@ do -- Private Scope
         return false
     end
 
-    function CheckRuleCombinations(cmd, rule) 
+    function CheckRuleCombinations(cmd, rule)
         for _,itemRarity in ipairs(AutoRoll.ItemRarities) do
             for _,itemType in ipairs(AutoRoll.ItemSubTypes) do
                 if CheckRuleCombination(cmd, rule, itemRarity, itemType) then
