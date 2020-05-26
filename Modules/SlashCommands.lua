@@ -59,18 +59,21 @@ SlashCmdList["AR"] = function(msg)
     if (rule == "reset") or (rule == "ignore") or (rule == "clear") or (rule == "remove") then
         if itemIdString then 
             AutoRoll.SaveRule(itemIdString, nil)
+            return
         end
 
         if string.match(cmd, "coins") then
             for index,itemId in ipairs(AutoRoll.COIN_IDS) do
                 AutoRoll.SaveRule(itemId, nil)
             end
+            return
         end
 
         if string.match(cmd, "bijous") then
             for index,itemId in ipairs(AutoRoll.BIJOUS_IDS) do
                 AutoRoll.SaveRule(itemId, nil)
             end
+            return
         end
 
         if string.match(cmd, "all rules") then
@@ -83,6 +86,7 @@ SlashCmdList["AR"] = function(msg)
             end
 
             AutoRoll_PCDB["rules"] = {}
+            return
         end
     end
 
@@ -96,6 +100,21 @@ SlashCmdList["AR"] = function(msg)
         end
 
         AutoRoll_PCDB["printRolls"] = willPrint
+        return
+    end
+
+    if cmd == "debug" then
+        local willDebug = not AutoRoll_PCDB["debug"] 
+
+        if willDebug then
+            print("AutoRoll - Debug ENABLED") 
+        else
+            print("AutoRoll - Debug DISABLED") 
+        end
+
+        AutoRoll_PCDB["debug"] = willDebug
+        AutoRoll.RollHistory.ConfigDebugButton()
+        return
     end
 
     if cmd == "filter rolls" then
@@ -108,6 +127,7 @@ SlashCmdList["AR"] = function(msg)
         end
 
         AutoRoll_PCDB["filterRolls"] = willFilter
+        return
     end
 
     if cmd == "rules" then
@@ -130,6 +150,7 @@ SlashCmdList["AR"] = function(msg)
             if count == 0 then
                 print("-- You haven't added any rules yet.")
                 print("-- Use the following commands: ")
+                print("--       /ar to show roll history")
                 print("--       /ar NEED [item-link]")
                 print("--       /ar GREED [item-link]")
                 print("--       /ar PASS [item-link]")
@@ -137,6 +158,10 @@ SlashCmdList["AR"] = function(msg)
             end
         end
 
+        return
     end
+
+    -- No rules matched, show history
+    AutoRoll.RollHistory.Show()
 
 end

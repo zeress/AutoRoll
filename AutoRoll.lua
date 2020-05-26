@@ -83,6 +83,9 @@ do -- Private Scope
         ["printRolls"] = false,
         ["enabled"] = true,
         ["filterRolls"] = true,
+        ["history"] = {},
+        ["historySize"] = 50,
+        ["debug"] = false,
     }
 
     -- REGISTER EVENTS
@@ -130,6 +133,7 @@ do -- Private Scope
             if select(1, ...) == ADDON_NAME then
                 Init()
                 PrintHelp()
+                AutoRoll.RollHistory.Create()
             end
         end
 
@@ -244,6 +248,15 @@ do -- Private Scope
                     end
                 end
             end
+
+            -- Save loot roll
+            local event = {
+              itemId = itemId,
+              rollId = RollID,
+              buttons = {}
+            }
+
+            AutoRoll.RollHistory.Add(event)
         end
     end
 

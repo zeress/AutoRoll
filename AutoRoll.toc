@@ -11,3 +11,4 @@ Dependencies\AddonUtils.lua
 AutoRoll.lua
 
 Modules\SlashCommands.lua
+Modules\RollHistory.lua
