@@ -40,7 +40,7 @@ do
     tempFontString:SetFontObject(GameFontWhite)
 
     function Create()
-        if not AutoRoll_PCDB.enableHistory SetHyperlink
+        if not AutoRoll_PCDB.enableHistory then
           return
         end
 
@@ -62,7 +62,7 @@ do
         })
         scrollFrame:SetBackdropColor(0, 0, 0, 1)
         scrollFrame:EnableMouse(true)
-        scrollFrame:EnableMouseWheel(true)  
+        scrollFrame:EnableMouseWheel(true)
         scrollFrame:SetHitRectInsets(-8, 8, -8, 8) -- create a slightly larger hitbox for resizing/dragging
 
         -- Make movable/resizable
@@ -175,8 +175,8 @@ do
     end
 
     function Update()
-        if not AutoRoll_PCDB.enableHistory SetHyperlink
-          return 
+        if not AutoRoll_PCDB.enableHistory then
+          return
         end
 
         if #AutoRoll_PCDB.history == 0 then
@@ -369,6 +369,10 @@ do
     end
 
     function Add(event)
+        if not AutoRoll_PCDB.enableHistory then
+          return
+        end
+
         for i,e in ipairs(AutoRoll_PCDB.history) do
             if (e.itemId == event.itemId) then
                 return
@@ -387,6 +391,10 @@ do
     end
 
     function Show()
+        if not AutoRoll_PCDB.enableHistory then
+          return
+        end
+
         scrollFrame:Show()
     end
 
@@ -452,6 +460,10 @@ do
     end
 
     function ConfigDebugButton()
+        if not AutoRoll_PCDB.enableHistory then
+          return
+        end
+
         if AutoRoll_PCDB.debug then
             if not scrollFrame.debugButton then
                 scrollFrame.debugButton = CreateFrame("Button", "AutoRollHistoryDebugButton", scrollFrame, "UIPanelButtonTemplate")
