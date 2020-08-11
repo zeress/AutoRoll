@@ -1,8 +1,8 @@
 -- COMMANDS
-SLASH_AR1 = '/ar'; 
-SLASH_AR2 = '/autoroll'; 
+SLASH_AR1 = '/ar';
+SLASH_AR2 = '/autoroll';
 
-SlashCmdList["AR"] = function(msg) 
+SlashCmdList["AR"] = function(msg)
     local cmd = msg:lower()
 
     local rule = string.match(cmd, "^(%S*)")
@@ -37,7 +37,7 @@ SlashCmdList["AR"] = function(msg)
         end
 
         -- Item Link Rules
-        if itemIdString then 
+        if itemIdString then
             AutoRoll.SaveRule(itemIdString, rule)
         end
 
@@ -54,10 +54,24 @@ SlashCmdList["AR"] = function(msg)
                 AutoRoll.SaveRule(itemId, rule)
             end
         end
+
+        -- Ahn'Qiraj Scarabs
+        if string.match(cmd, "scarabs") then
+            for index,itemId in ipairs(AutoRoll.SCARABS_IDS) do
+                AutoRoll.SaveRule(itemId, rule)
+            end
+        end
+
+        -- Ahn'Qiraj Idols
+        if string.match(cmd, "idols") then
+            for index,itemId in ipairs(AutoRoll.IDOL_IDS) do
+                AutoRoll.SaveRule(itemId, rule)
+            end
+        end
     end
 
     if (rule == "reset") or (rule == "ignore") or (rule == "clear") or (rule == "remove") then
-        if itemIdString then 
+        if itemIdString then
             AutoRoll.SaveRule(itemIdString, nil)
             return
         end
@@ -91,12 +105,12 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if cmd == "printing" then
-        local willPrint = not AutoRoll_PCDB["printRolls"] 
+        local willPrint = not AutoRoll_PCDB["printRolls"]
 
         if willPrint then
-            print("AutoRoll - Printing ENABLED") 
+            print("AutoRoll - Printing ENABLED")
         else
-            print("AutoRoll - Printing DISABLED") 
+            print("AutoRoll - Printing DISABLED")
         end
 
         AutoRoll_PCDB["printRolls"] = willPrint
@@ -104,12 +118,12 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if cmd == "debug" then
-        local willDebug = not AutoRoll_PCDB["debug"] 
+        local willDebug = not AutoRoll_PCDB["debug"]
 
         if willDebug then
-            print("AutoRoll - Debug ENABLED") 
+            print("AutoRoll - Debug ENABLED")
         else
-            print("AutoRoll - Debug DISABLED") 
+            print("AutoRoll - Debug DISABLED")
         end
 
         AutoRoll_PCDB["debug"] = willDebug
@@ -118,12 +132,12 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if cmd == "filter rolls" then
-        local willFilter = not AutoRoll_PCDB["filterRolls"] 
+        local willFilter = not AutoRoll_PCDB["filterRolls"]
 
         if willFilter then
-            print("AutoRoll - Filtering rolls ENABLED") 
+            print("AutoRoll - Filtering rolls ENABLED")
         else
-            print("AutoRoll - Filtering rolls DISABLED") 
+            print("AutoRoll - Filtering rolls DISABLED")
         end
 
         AutoRoll_PCDB["filterRolls"] = willFilter
@@ -134,7 +148,7 @@ SlashCmdList["AR"] = function(msg)
         print("AutoRoll Rules")
 
         local rules = AutoRoll_PCDB["rules"]
-        if rules then           
+        if rules then
             local count = 0
 
             for itemId,ruleNum in pairs(rules) do

@@ -27,6 +27,36 @@ AutoRoll.BIJOUS_IDS = {
     19715, -- Gold Hakkari Bijou
 }
 
+AutoRoll.SCARAB_IDS = {
+  20858,
+  20859,
+  20860,
+  20861,
+  20862,
+  20863,
+  20864,
+  20865,
+}
+
+AutoRoll.IDOL_IDS = {
+  20866,
+  20867,
+  20868,
+  20869,
+  20870,
+  20871,
+  20872,
+  20873,
+  20874,
+  20875,
+  20876,
+  20877,
+  20878,
+  20879,
+  20881,
+  20882,
+}
+
 AutoRoll.ItemSubTypes = {
     -- ARMOR
     "Cloth",
