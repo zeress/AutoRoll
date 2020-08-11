@@ -2,7 +2,7 @@ do
     AutoRoll.RollHistory = CreateFrame("Frame")
 
     local lootRolls = {
---[[        
+--[[
         {itemId = 19707, buttons = {}, html = nil }, -- Red Hakkari Bijou
         {itemId = 19708, buttons = {}, html = nil }, -- Blue Hakkari Bijou
         {itemId = 19709, buttons = {}, html = nil }, -- Yellow Hakkari Bijou
@@ -40,6 +40,10 @@ do
     tempFontString:SetFontObject(GameFontWhite)
 
     function Create()
+        if not AutoRoll_PCDB.enableHistory SetHyperlink
+          return
+        end
+
         if not scrollFrame then
             scrollFrame  = CreateFrame("ScrollFrame", "AutoRollScrollFrame", UIParent)
         end
@@ -69,25 +73,25 @@ do
         scrollFrame:RegisterForDrag("LeftButton")
         scrollFrame:SetScript("OnDragStart", scrollFrame.StartMoving)
         scrollFrame:SetScript("OnDragStop", scrollFrame.StopMovingOrSizing)
-        
+
         scrollFrame:SetScript("OnUpdate", function(self)
             if self.isResizing then
                 UpdateDimensions()
             end
         end)
-        
+
         scrollFrame:SetScript("OnShow", function(self)
             UpdateDimensions()
         end)
 
         -- Title
-        scrollFrame.text = scrollFrame:CreateFontString(nil, "ARTWORK") 
+        scrollFrame.text = scrollFrame:CreateFontString(nil, "ARTWORK")
         scrollFrame.text:SetFont("Fonts\\ARIALN.ttf", 13, "OUTLINE")
         scrollFrame.text:SetPoint("TOPLEFT",12,10)
         scrollFrame.text:SetText("AutoRoll History")
 
         -- Empty Text
-        scrollFrame.emptyText = scrollFrame:CreateFontString(nil, "BACKGROUND") 
+        scrollFrame.emptyText = scrollFrame:CreateFontString(nil, "BACKGROUND")
         scrollFrame.emptyText:SetFont("Fonts\\ARIALN.ttf", 13, "OUTLINE")
         scrollFrame.emptyText:SetPoint("CENTER")
         scrollFrame.emptyText:SetText("No rolls yet.")
@@ -100,13 +104,13 @@ do
         resizeButton:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
         resizeButton:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
         resizeButton:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
-         
+
         resizeButton:SetScript("OnMouseDown", function(self, button)
             scrollFrame:StartSizing("BOTTOMRIGHT")
             scrollFrame:SetUserPlaced(true)
             scrollFrame.isResizing = true
         end)
-         
+
         resizeButton:SetScript("OnMouseUp", function(self, button)
             scrollFrame:StopMovingOrSizing()
             scrollFrame.isResizing = false
@@ -119,7 +123,7 @@ do
         scrollFrame.closeButton:SetPoint("TOPRIGHT", scrollFrame, "TOPRIGHT", 0, 25)
         scrollFrame.closeButton:SetHeight(31)
         scrollFrame.closeButton:SetWidth(31)
-        
+
         scrollFrame.closeButton:SetScript("OnClick", function(self)
             HideParentPanel(self)
         end)
@@ -171,6 +175,10 @@ do
     end
 
     function Update()
+        if not AutoRoll_PCDB.enableHistory SetHyperlink
+          return 
+        end
+
         if #AutoRoll_PCDB.history == 0 then
             scrollFrame.emptyText:Show()
         else
@@ -186,7 +194,7 @@ do
 
     function UpdateDimensions()
         if scrollFrame then
-           
+
             local scrollBar = scrollFrame.scrollBar
             local scrollChild = scrollFrame.scrollChild
 
@@ -201,11 +209,11 @@ do
                 scrollBar:Hide()
             end
 
-            scrollChild:SetHeight(GetContentHeight())   
+            scrollChild:SetHeight(GetContentHeight())
 
             scrollBar:SetPoint("TOPRIGHT", scrollFrame, "TOPRIGHT", -SCROLLBAR_INSET, -30)
             scrollBar:SetPoint("BOTTOM", scrollFrame, "BOTTOM", -SCROLLBAR_INSET, 30)
-            
+
             HideClippedRows()
 
             local minWidth = GetContentWidth()
@@ -220,7 +228,7 @@ do
     function CreateRow(index, event)
         local yoffset = index * (BUTTON_SIZE + PADDING) - PADDING
         local scrollChild = scrollFrame.scrollChild
-        
+
         local function clickHandler(index, rule)
             local frame = framePool[index]
             local buttons = frame.buttons
@@ -238,7 +246,7 @@ do
             end
 
         end
-        
+
         PopulateFrame(index, event.itemId, clickHandler)
 
         SetFrameAlpha(index, event.itemId)
@@ -388,13 +396,13 @@ do
         local rule = AutoRoll_PCDB.rules[itemId]
         local ruleString = AutoRollUtils:getRuleString(rule)
 
-        for key,button in pairs(buttons) do 
+        for key,button in pairs(buttons) do
             if key == ruleString then
                 button.normalAlpha = BUTTON_CHECKED_ALPHA
             else
                 button.normalAlpha = BUTTON_UNCHECKED_ALPHA
             end
-            
+
             button:SetAlpha(button.normalAlpha)
         end
     end

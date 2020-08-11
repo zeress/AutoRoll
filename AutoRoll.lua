@@ -113,6 +113,7 @@ do -- Private Scope
         ["printRolls"] = false,
         ["enabled"] = true,
         ["filterRolls"] = true,
+        ["enableHistory"] = false,
         ["history"] = {},
         ["historySize"] = 50,
         ["debug"] = false,
