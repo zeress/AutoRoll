@@ -299,10 +299,6 @@ do -- Private Scope
         or SaveIfFound(cmd, rule, "shields")
         or SaveIfFound(cmd, rule, "trade goods")
         or SaveIfFound(cmd, rule, "miscellaneous")
-        or SaveIfFound(cmd, rule, "librams")
-        or SaveIfFound(cmd, rule, "idols")
-        or SaveIfFound(cmd, rule, "totems")
-        or SaveIfFound(cmd, rule, "sigils")
     end
 
     function CheckItemRarity(cmd, rule)

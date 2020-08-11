@@ -37,8 +37,9 @@ SlashCmdList["AR"] = function(msg)
         end
 
         -- Item Link Rules
-        if itemIdString then
+        if not itemIdString == nil then
             AutoRoll.SaveRule(itemIdString, rule)
+            return
         end
 
         -- Zul'Gurub Coins
@@ -46,6 +47,7 @@ SlashCmdList["AR"] = function(msg)
             for index,itemId in ipairs(AutoRoll.COIN_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
+            return
         end
 
         -- Zul'Gurub Bijous
@@ -53,6 +55,7 @@ SlashCmdList["AR"] = function(msg)
             for index,itemId in ipairs(AutoRoll.BIJOUS_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
+            return
         end
 
         -- Ahn'Qiraj Scarabs
@@ -60,6 +63,7 @@ SlashCmdList["AR"] = function(msg)
             for index,itemId in ipairs(AutoRoll.SCARAB_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
+            return
         end
 
         -- Ahn'Qiraj Idols
@@ -67,15 +71,17 @@ SlashCmdList["AR"] = function(msg)
             for index,itemId in ipairs(AutoRoll.IDOL_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
+            return
         end
     end
 
     if (rule == "reset") or (rule == "ignore") or (rule == "clear") or (rule == "remove") then
-        if itemIdString then
+        if not itemIdString == nil then
             AutoRoll.SaveRule(itemIdString, nil)
             return
         end
 
+        -- Zul'Gurub Coins
         if string.match(cmd, "coins") then
             for index,itemId in ipairs(AutoRoll.COIN_IDS) do
                 AutoRoll.SaveRule(itemId, nil)
@@ -83,11 +89,26 @@ SlashCmdList["AR"] = function(msg)
             return
         end
 
+        -- Zul'Gurub Bijous
         if string.match(cmd, "bijous") then
             for index,itemId in ipairs(AutoRoll.BIJOUS_IDS) do
                 AutoRoll.SaveRule(itemId, nil)
             end
             return
+        end
+
+        -- Ahn'Qiraj Scarabs
+        if string.match(cmd, "scarabs") then
+            for index,itemId in ipairs(AutoRoll.SCARAB_IDS) do
+                AutoRoll.SaveRule(itemId, nil)
+            end
+        end
+
+        -- Ahn'Qiraj Idols
+        if string.match(cmd, "idols") then
+            for index,itemId in ipairs(AutoRoll.IDOL_IDS) do
+                AutoRoll.SaveRule(itemId, nil)
+            end
         end
 
         if string.match(cmd, "all rules") then

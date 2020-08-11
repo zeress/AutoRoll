@@ -39,6 +39,7 @@ function AutoRollUtils:getItemId(str)
         if tmp then
             return string.match(tmp, "(%d*)")
         end
+        return nil
     end
 end
 
@@ -86,4 +87,3 @@ function AutoRollUtils:getRarityIntegerFromString(str)
 
     return -1
 end
-
