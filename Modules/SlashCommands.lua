@@ -57,7 +57,7 @@ SlashCmdList["AR"] = function(msg)
 
         -- Ahn'Qiraj Scarabs
         if string.match(cmd, "scarabs") then
-            for index,itemId in ipairs(AutoRoll.SCARABS_IDS) do
+            for index,itemId in ipairs(AutoRoll.SCARAB_IDS) do
                 AutoRoll.SaveRule(itemId, rule)
             end
         end
