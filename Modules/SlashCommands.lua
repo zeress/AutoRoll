@@ -166,7 +166,7 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if cmd == "rules" then
-        print("AutoRoll Rules")
+        print("AutoRoll - Rules")
 
         local rules = AutoRoll_PCDB["rules"]
         if rules then
@@ -184,19 +184,34 @@ SlashCmdList["AR"] = function(msg)
 
             if count == 0 then
                 print("-- You haven't added any rules yet.")
-                print("-- Use the following commands: ")
-                print("--       /ar to show roll history")
-                print("--       /ar NEED [item-link]")
-                print("--       /ar GREED [item-link]")
-                print("--       /ar PASS [item-link]")
-                print("--       /ar CLEAR [item-link]")
+            else
+                return
             end
         end
 
-        return
     end
 
-    -- No rules matched, show history
-    AutoRoll.RollHistory.Show()
+    if cmd == "history" then
+        AutoRoll.RollHistory.Show()
+    end
+
+    -- No rules matched, print help
+    print("AutoRoll - Commands")
+    print("-- Adding custom rules:")
+    print("--       /ar [need,greed,pass] [item-link]")
+    print("-- Adding predefined rules:")
+    print("--       /ar [need,greed,pass] [coins,bijous,scarabs,idols]")
+    print("-- List current rules:")
+    print("--       /ar rules")
+    print("-- Removing rules:")
+    print("--       /ar [clear,ignore,remove,reset] [item-link]")
+    print("--       /ar [clear,ignore,remove,reset] all rules")
+    print("-- Only show the winner of rolls in the chat (toggle):")
+    print("--       /ar filter rolls")
+    print("-- Know when AutoRoll automates rolls (toggle):")
+    print("--       /ar printing")
+    print("-- Enabling/Disabling the addon")
+    print("--       /ar enable")
+    print("--       /ar disable")
 
 end
