@@ -1,7 +1,7 @@
 ## Interface: 11304
 ## Title: Auto Roll
 ## Notes: Set up rules to automatically need/greed/pass on drops.
-## Version: 0.13
+## Version: 0.14
 ## DefaultState: enabled
 ## Author: CassiniEU @ Twitch.com
 ## SavedVariablesPerCharacter: AutoRoll_PCDB
