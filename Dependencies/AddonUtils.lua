@@ -39,7 +39,7 @@ function AutoRollUtils:getItemId(str)
     if str then
         local tmp = string.match(str, "item:(%d*)")
         if tmp then
-            return string.match(tmp, "(%d*)")
+            return tonumber(string.match(tmp, "(%d*)"))
         end
         return nil
     end
