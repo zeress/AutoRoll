@@ -305,8 +305,8 @@ do -- Private Scope
 
     function CheckItemRarity(cmd, rule)
         return SaveIfFound(cmd, rule, "poor")
-        or SaveIfFound(cmd, rule, "common")
         or SaveIfFound(cmd, rule, "uncommon")
+        or SaveIfFound(cmd, rule, "common")
         or SaveIfFound(cmd, rule, "rare")
         or SaveIfFound(cmd, rule, "epic")
         or SaveIfFound(cmd, rule, "legendary")
