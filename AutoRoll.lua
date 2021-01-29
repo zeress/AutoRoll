@@ -103,7 +103,12 @@ AutoRoll.ItemRarities = {
 
 AutoRoll.FilterStrings = {
     "Bijou",
-    "Coin"
+    "Coin",
+}
+
+AutoRoll.FilterEndStrings = {
+    "Scarab$",
+    "Idol$",
 }
 
 do -- Private Scope
@@ -137,7 +142,7 @@ do -- Private Scope
             for _, str in pairs(AutoRoll.FilterStrings) do
                 if string.match(message, str) then return true end
             end
-            for _, str in pairs(AutoRoll.FilterStrings) do
+            for _, str in pairs(AutoRoll.FilterEndStrings) do
                 if string.match(message, str) then return true end
             end
         end
