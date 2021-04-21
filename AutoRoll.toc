@@ -1,4 +1,4 @@
-## Interface: 11306
+## Interface: 11307
 ## Title: Auto Roll
 ## Notes: Set up rules to automatically need/greed/pass on drops.
 ## Version: 0.16
