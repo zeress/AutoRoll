@@ -65,7 +65,7 @@ AutoRoll.ItemSubTypes = {
     "Plate",
     "Shields",
     "Librams",
-    "Odols",
+    "Idols",
     "Totems",
     "Sigils",
 
@@ -80,7 +80,7 @@ AutoRoll.ItemSubTypes = {
     "One-Handed Swords",
     "Two-Handed Swords",
     "Staves",
-    "Fist Weaons",
+    "Fist Weapons",
     "Daggers",
     "Thrown",
     "Spears",
