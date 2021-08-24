@@ -76,7 +76,7 @@ SlashCmdList["AR"] = function(msg)
     end
 
     if (rule == "reset") or (rule == "ignore") or (rule == "clear") or (rule == "remove") then
-        if not itemIdString == nil then
+        if itemIdString then
             AutoRoll.SaveRule(itemIdString, nil)
             return
         end
