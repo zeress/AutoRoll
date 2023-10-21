@@ -299,15 +299,37 @@ do -- Private Scope
     end
 
     function CheckItemType(cmd, rule)
-        return SaveIfFound(cmd, rule, "cloth")
-        or SaveIfFound(cmd, rule, "leather")
-        or SaveIfFound(cmd, rule, "mail")
-        or SaveIfFound(cmd, rule, "plate")
-        or SaveIfFound(cmd, rule, "shields")
-        or SaveIfFound(cmd, rule, "wands")
-        or SaveIfFound(cmd, rule, "thrown")
-        or SaveIfFound(cmd, rule, "trade goods")
-        or SaveIfFound(cmd, rule, "miscellaneous")
+		-- ARMOR
+		return SaveIfFound(cmd, rule, "cloth")
+		or SaveIfFound(cmd, rule, "leather")
+		or SaveIfFound(cmd, rule, "mail")
+		or SaveIfFound(cmd, rule, "plate")
+		or SaveIfFound(cmd, rule, "shields")
+		or SaveIfFound(cmd, rule, "librams")
+		or SaveIfFound(cmd, rule, "idols")
+		or SaveIfFound(cmd, rule, "totems")
+		or SaveIfFound(cmd, rule, "sigils")
+		
+		-- WEAPONS
+		-- or SaveIfFound(cmd, rule, "one-handed axes")
+		-- or SaveIfFound(cmd, rule, "two-handed axes")
+		or SaveIfFound(cmd, rule, "bows")
+		or SaveIfFound(cmd, rule, "guns")
+		-- or SaveIfFound(cmd, rule, "one-handed maces")
+		-- or SaveIfFound(cmd, rule, "two-handed maces")
+		or SaveIfFound(cmd, rule, "polearms")
+		-- or SaveIfFound(cmd, rule, "one-handed swords")
+		-- or SaveIfFound(cmd, rule, "two-handed swords")
+		or SaveIfFound(cmd, rule, "staves")
+		-- or SaveIfFound(cmd, rule, "fist weapons")
+		or SaveIfFound(cmd, rule, "daggers")
+		or SaveIfFound(cmd, rule, "thrown")
+		or SaveIfFound(cmd, rule, "crossbows")
+		or SaveIfFound(cmd, rule, "wands")
+		
+		-- TRADE GOODS & MISCELLANEOUS
+		or SaveIfFound(cmd, rule, "trade goods")
+		or SaveIfFound(cmd, rule, "miscellaneous")
     end
 
     function CheckItemRarity(cmd, rule)
