@@ -304,6 +304,8 @@ do -- Private Scope
         or SaveIfFound(cmd, rule, "mail")
         or SaveIfFound(cmd, rule, "plate")
         or SaveIfFound(cmd, rule, "shields")
+        or SaveIfFound(cmd, rule, "wands")
+        or SaveIfFound(cmd, rule, "thrown")
         or SaveIfFound(cmd, rule, "trade goods")
         or SaveIfFound(cmd, rule, "miscellaneous")
     end
